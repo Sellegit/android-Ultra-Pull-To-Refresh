@@ -40,7 +40,7 @@ public class PtrFrameLayout extends ViewGroup {
     private boolean mPullToRefresh = false;
     private View mHeaderView;
     private PtrUIHandlerHolder mPtrUIHandlerHolder = PtrUIHandlerHolder.create();
-    private PtrHandler mPtrHandler;
+    protected PtrHandler mPtrHandler;
     // working parameters
     private ScrollChecker mScrollChecker;
     // private int mCurrentPos = 0;
@@ -62,7 +62,7 @@ public class PtrFrameLayout extends ViewGroup {
 
     private int mLoadingMinTime = 500;
     private long mLoadingStartTime = 0;
-    private PtrIndicator mPtrIndicator;
+    protected PtrIndicator mPtrIndicator;
     private boolean mHasSendCancelEvent = false;
     private boolean mPinContent = false;
 
@@ -711,6 +711,20 @@ public class PtrFrameLayout extends ViewGroup {
     @SuppressWarnings({"unused"})
     public View getContentView() {
         return mContent;
+    }
+
+    public void setContentView(View content) {
+        if (mContent != null) {
+            removeView(mContent);
+        }
+        mContent = content;
+        if (mContent != null) {
+            mContent.setLayoutParams(new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+            ));
+            addView(mContent);
+        }
     }
 
     public void setPtrHandler(PtrHandler ptrHandler) {
